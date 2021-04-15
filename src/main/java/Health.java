@@ -12,13 +12,17 @@ public class Health {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here        
+        /* main makes a connection to the database and prints out the usernames and passwords
+            so that a functionality can be tested. Additionally the login window is generated
+         */
+
         @SuppressWarnings("UnusedAssignment")
-        // test connection        
+        // test connection
         Connection conn = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:" +
+                    "3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
             //JOptionPane.showMessageDialog (null, "Connected");            
             Statement statement = conn.createStatement();
             ResultSet hc = statement.executeQuery("select * from Patient");
