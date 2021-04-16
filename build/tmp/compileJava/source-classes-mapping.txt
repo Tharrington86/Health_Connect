@@ -1,45 +1,47 @@
-Profile.java
- Profile
- Profile$1
- Profile$2
- Profile$3
- Profile$4
-NewJFrame.java
- NewJFrame
- NewJFrame$1
- NewJFrame$2
- NewJFrame$3
- NewJFrame$4
- NewJFrame$5
-NewRequests.java
- NewRequests
- NewRequests$1
- NewRequests$2
- NewRequests$3
-PatientView.java
- PatientView
- PatientView$1
- PatientView$2
- PatientView$3
- PatientView$4
- PatientView$5
- PatientView$6
- PatientView$7
-Health.java
- Health
-RequestConversation.java
- RequestConversation
- RequestConversation$1
- RequestConversation$2
- RequestConversation$3
- RequestConversation$4
-DoctorView.java
- DoctorView
- DoctorView$1
- DoctorView$2
- DoctorView$3
- DoctorView$4
- DoctorView$5
- DoctorView$6
- DoctorView$7
- DoctorView$8
+sample/Profile.java
+ sample.Profile
+ sample.Profile$1
+ sample.Profile$2
+ sample.Profile$3
+ sample.Profile$4
+sample/DoctorView.java
+ sample.DoctorView
+ sample.DoctorView$1
+ sample.DoctorView$2
+ sample.DoctorView$3
+ sample.DoctorView$4
+ sample.DoctorView$5
+ sample.DoctorView$6
+ sample.DoctorView$7
+ sample.DoctorView$8
+sample/Health.java
+ sample.Health
+sample/NewJFrame.java
+ sample.NewJFrame
+ sample.NewJFrame$1
+ sample.NewJFrame$2
+ sample.NewJFrame$3
+ sample.NewJFrame$4
+ sample.NewJFrame$5
+sample/PatientView.java
+ sample.PatientView
+ sample.PatientView$1
+ sample.PatientView$2
+ sample.PatientView$3
+ sample.PatientView$4
+ sample.PatientView$5
+ sample.PatientView$6
+ sample.PatientView$7
+sample/RequestConversation.java
+ sample.RequestConversation
+ sample.RequestConversation$1
+ sample.RequestConversation$2
+ sample.RequestConversation$3
+ sample.RequestConversation$4
+sample/NewRequests.java
+ sample.NewRequests
+ sample.NewRequests$1
+ sample.NewRequests$2
+ sample.NewRequests$3
+sample/NewRequestsTest.java
+ sample.NewRequestsTest
