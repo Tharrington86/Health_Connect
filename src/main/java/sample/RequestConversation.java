@@ -81,7 +81,8 @@ public class RequestConversation extends javax.swing.JFrame {
         }
         sql = "select Status from Request where RID =?";
         try {
-            pst = conn.prepareStatement(sql);
+            pst = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);       //added ability to move the pointer
             String temp = Integer.toString(requestNumber);
             pst.setString(1, temp);
             rs = pst.executeQuery();
