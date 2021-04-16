@@ -21,6 +21,11 @@ public class NewRequests extends javax.swing.JFrame {
     int requestNumber;
     String userID;
     String userType;
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
     Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
@@ -34,7 +39,7 @@ public class NewRequests extends javax.swing.JFrame {
         userID = new_userID;
         try {
             Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:C:/Users/shafi/Downloads/HealthConnect-master/HealthConnect-master/resources/HealthConnect_Shafi.db");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
             //JOptionPane.showMessageDialog (null, "Connected");
             Statement statement = conn.createStatement();
             String sql = "select RID from Request";
@@ -72,6 +77,7 @@ public class NewRequests extends javax.swing.JFrame {
     public void setCount(int count) {
         this.count = count;
     }
+
 
     public NewRequests() {
 
@@ -166,6 +172,10 @@ public class NewRequests extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         pack();
     }// </editor-fold>
+
+    public void setPst(PreparedStatement pst) {
+        this.pst = pst;
+    }
 
     public boolean createButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
