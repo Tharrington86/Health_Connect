@@ -38,7 +38,7 @@ public class NewRequests extends javax.swing.JFrame {
         initComponents();
         userID = new_userID;
         try {
-            Class.forName("org.sqlite.JDBC");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
             //JOptionPane.showMessageDialog (null, "Connected");
             Statement statement = conn.createStatement();
