@@ -23,8 +23,12 @@ public class NewRequests extends javax.swing.JFrame {
     PreparedStatement pst;
     int count = 100;
     String new_userID1;
+    String testMessage; //Created for testing
 
 
+    public void setTestMessage(String testMessage) {
+        this.testMessage = testMessage;
+    }
 
     public void setNew_userID(String new_userID1) {
         this.new_userID1 = new_userID1;
@@ -180,10 +184,14 @@ public class NewRequests extends javax.swing.JFrame {
 
     public boolean createButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-
+        /*if(testMessage.isEmpty()){
+            System.out.println("");
+        }
+        else*/
 
         int pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to create the request?", "Create Request", JOptionPane.YES_NO_OPTION);
         if (pane == 0) {
+
             String sql = "insert into Message (RID, DUsername, TimeStamp, Message) values (?, ?, ?, ?)";
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");

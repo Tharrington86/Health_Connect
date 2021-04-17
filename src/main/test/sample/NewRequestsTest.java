@@ -24,10 +24,6 @@ public class NewRequestsTest {
     newRequests.setFinalString("I need an appointment");
 
 
-
-
-
-
   }
   @Test
   public void validUserRequest() throws SQLException {
@@ -35,7 +31,7 @@ public class NewRequestsTest {
     newRequests.setUserID("will");
 
     newRequests.setFinalString("I need an");
-    newRequests.setCount(128);
+    newRequests.setCount(130);
 
 
     Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
@@ -46,12 +42,7 @@ public class NewRequestsTest {
   }
 
 
-  @Test
-  public void newRequest(){
-    newRequests.setCount(108);
-    newRequests.setUserID("Will");
 
-  }
   @Test
   public void testMain() throws IOException {
     newRequests.setUserID("will");
@@ -63,15 +54,8 @@ public class NewRequestsTest {
     String[] args = null;
     newRequests.main(args);
 
-
   }
-  @Test
-  public void testNewRequestScreen() {
-    newRequests.setCount(140);
-    newRequests.setUserID("Will");
 
-
-  }
 
 
 
