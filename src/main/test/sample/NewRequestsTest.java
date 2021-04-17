@@ -13,13 +13,14 @@ public class NewRequestsTest {
   public NewRequests newRequests = new NewRequests();
 
 
+
   @BeforeEach
   public void initNewRequest() throws SQLException {
     newRequests.setUserID("will");
     newRequests.setUserType("Doctor");
     newRequests.setCount(101);
-    newRequests.setMessage("I need an appoinment");
-    newRequests.setPane(0);
+    newRequests.setFinalString("I need an appointment");
+
 
 
 
@@ -27,9 +28,13 @@ public class NewRequestsTest {
 
   }
   @Test
-  public void validUserTest() throws SQLException {
+  public void validUserRequest() throws SQLException {
+
     newRequests.setUserID("will");
-    newRequests.setMessage("I need an appoinment");
+
+    newRequests.setFinalString("I need an");
+    newRequests.setCount(126);
+
 
     Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
   }
@@ -45,9 +50,7 @@ public class NewRequestsTest {
     newRequests.setUserID("Will");
 
   }
-  @Test
-  void cancelButtonActionPerformed() {
-  }
+
 
 
 

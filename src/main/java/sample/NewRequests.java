@@ -1,7 +1,4 @@
-/* * To change this license header, choose License Headers in Project Properties. * To change this template file, choose Tools | Templates * and open the template in the editor. */
-
 package sample;
-
 /* * To change this license header, choose License Headers in Project Properties. * To change this template file, choose Tools | Templates * and open the template in the editor. */
 
 
@@ -13,30 +10,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
 public class NewRequests extends javax.swing.JFrame {
     int requestNumber;
     String userID;
     String userType;
-
-    public void setConn(Connection conn) {
-        this.conn = conn;
-    }
-
-    Connection conn = null;
-    ResultSet rs = null;
-    PreparedStatement pst = null;
+    Connection conn;
+    ResultSet rs;
+    PreparedStatement pst;
     int count = 100;
-    int pane;
 
-    public void setPane(int pane) {
-        this.pane = pane;
+    public void setFinalString(String finalString) {
+        this.finalString = finalString;
     }
+
+    String finalString;
 
     /**
      * Creates new form NewRequests     * @param new_userID
@@ -66,8 +57,8 @@ public class NewRequests extends javax.swing.JFrame {
         jTextArea1.setLineWrap(true);
         jTextArea1.setWrapStyleWord(true);
     }
-    public void setMessage(String message) {
-        this.jTextArea1.setText(message);
+    public void setMessage(StringBuilder message) {
+        jTextArea1.setText(String.valueOf(message));
     }
     public void setRequestNumber(int requestNumber) {
         this.requestNumber = requestNumber;
@@ -84,8 +75,6 @@ public class NewRequests extends javax.swing.JFrame {
     public void setCount(int count) {
         this.count = count;
     }
-
-
 
     public NewRequests() {
 
@@ -181,30 +170,35 @@ public class NewRequests extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    public void setPst(PreparedStatement pst) {
-        this.pst = pst;
-    }
-
     public boolean createButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to create the request?", "Create Request", JOptionPane.YES_NO_OPTION);
-        if (pane == 0) {
 
+
+        int pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to create the request?", "Create Request", JOptionPane.YES_NO_OPTION);
+        if (pane == 0) {
             String sql = "insert into Message (RID, DUsername, TimeStamp, Message) values (?, ?, ?, ?)";
             try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+
                 pst = conn.prepareStatement(sql);
                 String temp = Integer.toString(count);
                 pst.setString(1, temp);
-                pst.setString(2, null);
+                pst.setString(2, userID);
                 Date date = new Date();
                 String timestamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date);
                 pst.setString(3, timestamp);
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("\n");
-                stringBuilder.append(jTextArea1.getText());
+                try {
+                    stringBuilder.append(jTextArea1.getText());
+                }
+                catch(NullPointerException e) {
+                    System.out.println("NullPointerException thrown!");
+                }
+
                 stringBuilder.append("\n Added by ").append("Patient").append(" ").append(userID);
-                String finalString = stringBuilder.toString();
+                finalString = stringBuilder.toString();
                 pst.setString(4, finalString);
                 pst.execute();
                 JOptionPane.showMessageDialog(null, "Message created");
@@ -215,7 +209,7 @@ public class NewRequests extends javax.swing.JFrame {
                 pst.setString(3, timestamp);
                 pst.setString(4, "New");
                 pst.execute();
-            } catch (SQLException | HeadlessException e) {
+            } catch (SQLException | HeadlessException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(null, e);
                 try {
                     rs.close();

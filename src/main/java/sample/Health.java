@@ -19,7 +19,7 @@ public class Health {
 
         @SuppressWarnings("UnusedAssignment")
         // test connection
-        Connection conn = null;
+        Connection conn;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:" +

@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 public class NewJFrame extends javax.swing.JFrame {
     Connection conn = null;
     ResultSet rs = null;
-    PreparedStatement pst = null;
+    PreparedStatement pst;
     int curRow = 0;
     public String username;
     public String password;
@@ -42,7 +42,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     public void setUsername(String username) {
-        this.username = this.txt_username.getText();
+        txt_username.setText(username);
     }
     public void setPassword(String password){
         txt_password.setText(password);
@@ -77,7 +77,11 @@ public class NewJFrame extends javax.swing.JFrame {
         LoginAsPatient.setText("Login as Patient");
         LoginAsPatient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginAsPatientActionPerformed(evt);
+                try {
+                    LoginAsPatientActionPerformed(evt);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         });
         LoginAsDoctor.setText("Login as Doctor");
@@ -152,14 +156,19 @@ public class NewJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    public void LoginAsPatientActionPerformed(java.awt.event.ActionEvent evt) {
+    public boolean LoginAsPatientActionPerformed(ActionEvent evt) throws SQLException {
         // TODO add your handling code here:
+        String username = txt_username.getText();
+        String password = new String(txt_password.getPassword());
+
         String sql = "select * from Patient where username=? and password=?";
+
         try {
             pst = conn.prepareStatement(sql);
-            pst.setString(1, txt_username.getText());
-            pst.setString(2, String.valueOf(txt_password.getPassword()));
-            username = txt_username.getText();
+
+            pst.setString(1, username);
+            pst.setString(2, password);
+            //username = txt_username.getText();
             setUsername(username);
             //JOptionPane.showMessageDialog (null, "Username = " + username);
             rs = pst.executeQuery();
@@ -170,6 +179,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Incorrect username or password.  Please try again.");
+                return false;
             }
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -181,6 +191,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        return true;
     }
 
     public boolean LoginAsDoctorActionPerformed(ActionEvent evt) {

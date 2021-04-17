@@ -5,6 +5,7 @@
 package sample;
 
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,8 +17,8 @@ import javax.swing.JOptionPane;
 
 public final class PatientView extends javax.swing.JFrame {
     Connection conn = null;
-    ResultSet rs = null;
-    PreparedStatement pst = null;
+    ResultSet rs;
+    PreparedStatement pst;
     int curRow = 0;
     String username, userType;
     DefaultListModel model = new DefaultListModel();
@@ -43,6 +44,11 @@ public final class PatientView extends javax.swing.JFrame {
         setUserType(userType);
         jList1.setVisible(false);
     }
+
+    public PatientView() {
+
+    }
+
 
     public String getUsername() {
         return this.username;
@@ -188,16 +194,27 @@ public final class PatientView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void InProgressButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    boolean InProgressButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        jLabel1.setText("Your Opened Requests");
-        jList1.setVisible(true);
         String element;
         String sql = "select RID,Date from Request where Status=? and PUsername=?";
         model.removeAllElements();
         element = "RID        Date";
         model.addElement(element);
         try {
+            jLabel1.setText("Your Opened Requests");
+            jList1.setVisible(true);
+        }
+        catch(NullPointerException e) {
+            System.out.println(" ");
+        }
+
+
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+
             pst = conn.prepareStatement(sql);
             pst.setString(1, "In Progress");
             pst.setString(2, username);
@@ -213,8 +230,9 @@ public final class PatientView extends javax.swing.JFrame {
                 jList1.setModel(model);
             } else {
                 JOptionPane.showMessageDialog(null, "No requests are in progress.");
+                return false;
             }
-        } catch (SQLException | HeadlessException e) {
+        } catch (SQLException | HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             try {
@@ -224,18 +242,29 @@ public final class PatientView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        return true;
     }
 
-    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    boolean newButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        jLabel1.setText("Your New Requests");
-        jList1.setVisible(true);
         String element;
         String sql = "select RID,Date from Request where Status=? and PUsername=?";
         model.removeAllElements();
         element = "RID        Date";
         model.addElement(element);
         try {
+            jLabel1.setText("Your New Requests");
+            jList1.setVisible(true);
+        }
+        catch(NullPointerException e) {
+            System.out.println(" ");
+        }
+
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+
             pst = conn.prepareStatement(sql);
             pst.setString(1, "New");
             pst.setString(2, username);
@@ -248,11 +277,19 @@ public final class PatientView extends javax.swing.JFrame {
                     element = rs.getString("RID") + "        " + rs.getString("Date");
                     model.addElement(element);
                 }
-                jList1.setModel(model);
+
+
+                try {
+                    jList1.setModel(model);
+                }
+                catch(NullPointerException e) {
+                    System.out.println(" ");
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "No new requests.");
+                return false;
             }
-        } catch (SQLException | HeadlessException e) {
+        } catch (SQLException | HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             try {
@@ -262,18 +299,29 @@ public final class PatientView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        return true;
     }
 
-    private void closedButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    boolean closedButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        jLabel1.setText("Your Closed Requests");
-        jList1.setVisible(true);
+
         String element;
         String sql = "select RID,Date from Request where Status=? and PUsername=?";
         model.removeAllElements();
         element = "RID        Date";
         model.addElement(element);
         try {
+            jLabel1.setText("Your Closed Requests");
+            jList1.setVisible(true);
+        }
+        catch(NullPointerException e) {
+            System.out.println(" ");
+        }
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+
             pst = conn.prepareStatement(sql);
             pst.setString(1, "Closed");
             pst.setString(2, username);
@@ -286,11 +334,17 @@ public final class PatientView extends javax.swing.JFrame {
                     element = rs.getString("RID") + "        " + rs.getString("Date");
                     model.addElement(element);
                 }
-                jList1.setModel(model);
+                try {
+                    jList1.setModel(model);
+                }
+                catch(NullPointerException e) {
+                    System.out.println(" ");
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "No requests have been closed.");
+                return false;
             }
-        } catch (SQLException | HeadlessException e) {
+        } catch (SQLException | HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             try {
@@ -300,6 +354,7 @@ public final class PatientView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        return true;
     }
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,8 +364,9 @@ public final class PatientView extends javax.swing.JFrame {
         p.setVisible(true);
     }
 
-    private void openRequestActionPerformed(java.awt.event.ActionEvent evt) {
+    boolean openRequestActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
+
         if (jList1.getSelectedIndex() != -1) {
             String temp_requestID = jList1.getSelectedValue().toString();
             temp_requestID = temp_requestID.substring(0, 3);
@@ -319,7 +375,11 @@ public final class PatientView extends javax.swing.JFrame {
             RequestConversation r = new RequestConversation(requestID, username, userType);
             dispose();
             r.setVisible(true);
-        } else JOptionPane.showMessageDialog(null, "Please select a request");
+            return true;
+
+        }
+        else JOptionPane.showMessageDialog(null, "Please select a request");
+        return false;
     }
 
 
