@@ -19,27 +19,38 @@ public class NewRequestsTest {
     newRequests.setUserType("Doctor");
     newRequests.setCount(101);
     newRequests.setMessage("I need an appoinment");
+    newRequests.setPane(0);
+
+
+
+
+
   }
   @Test
   public void validUserTest() throws SQLException {
-    newRequests.setUserID("Will");
+    newRequests.setUserID("will");
+    newRequests.setMessage("I need an appoinment");
+
     Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
   }
   @Test
   public void cancelTest(){
     Assertions.assertTrue(newRequests.cancelButtonActionPerformed(null));
   }
-  @Test
-  public void createTest()
-  {
-    Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
 
-  }
+
   @Test
   public void newRequest(){
     newRequests.setCount(108);
     newRequests.setUserID("Will");
 
   }
+  @Test
+  void cancelButtonActionPerformed() {
+  }
+
+
+
+
 
 }
