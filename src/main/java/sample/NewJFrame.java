@@ -164,6 +164,9 @@ public class NewJFrame extends javax.swing.JFrame {
         String sql = "select * from Patient where username=? and password=?";
 
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+
             pst = conn.prepareStatement(sql);
 
             pst.setString(1, username);
@@ -181,7 +184,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Incorrect username or password.  Please try again.");
                 return false;
             }
-        } catch (HeadlessException | SQLException e) {
+        } catch (HeadlessException | SQLException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             try {
@@ -198,6 +201,9 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         String sql = "select * from Doctor where username=? and password=?";
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+
             pst = conn.prepareStatement(sql);
             pst.setString(1, txt_username.getText());
             pst.setString(2, String.valueOf(txt_password.getPassword()));
@@ -213,7 +219,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Incorrect username or password.  Please try again.");
                 return false;
             }
-        } catch (HeadlessException | SQLException e) {
+        } catch (HeadlessException | SQLException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             try {
