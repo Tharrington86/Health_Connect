@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 public final class PatientView extends javax.swing.JFrame {
@@ -62,6 +63,10 @@ public final class PatientView extends javax.swing.JFrame {
         return this.requestID;
     }
 
+    public void setjList1(JList jList1) {
+        this.jList1 = jList1;
+    }
+
     public void setRequestID(int requestID) {
         this.requestID = requestID;
     }
@@ -73,6 +78,8 @@ public final class PatientView extends javax.swing.JFrame {
     public void setUserType(String userType) {
         this.userType = userType;
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.     * WARNING: Do NOT modify this code. The content of this method is always
@@ -214,7 +221,6 @@ public final class PatientView extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
-
             pst = conn.prepareStatement(sql);
             pst.setString(1, "In Progress");
             pst.setString(2, username);
@@ -227,7 +233,13 @@ public final class PatientView extends javax.swing.JFrame {
                     element = rs.getString("RID") + "        " + rs.getString("Date");
                     model.addElement(element);
                 }
-                jList1.setModel(model);
+                try {
+                    jList1.setModel(model);
+                }
+                catch(NullPointerException e) {
+                    System.out.println(" ");
+                }
+
             } else {
                 JOptionPane.showMessageDialog(null, "No requests are in progress.");
                 return false;
@@ -277,8 +289,6 @@ public final class PatientView extends javax.swing.JFrame {
                     element = rs.getString("RID") + "        " + rs.getString("Date");
                     model.addElement(element);
                 }
-
-
                 try {
                     jList1.setModel(model);
                 }
@@ -303,8 +313,7 @@ public final class PatientView extends javax.swing.JFrame {
     }
 
     boolean closedButtonActionPerformed(ActionEvent evt) {
-        // TODO add your handling code here:
-
+        // TODO add your handling code here
         String element;
         String sql = "select RID,Date from Request where Status=? and PUsername=?";
         model.removeAllElements();
@@ -364,7 +373,7 @@ public final class PatientView extends javax.swing.JFrame {
         p.setVisible(true);
     }
 
-    boolean openRequestActionPerformed(ActionEvent evt) {
+    public boolean openRequestActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
 
         if (jList1.getSelectedIndex() != -1) {
