@@ -13,9 +13,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 public class NewRequests extends javax.swing.JFrame {
     int requestNumber;
@@ -30,6 +32,11 @@ public class NewRequests extends javax.swing.JFrame {
     ResultSet rs = null;
     PreparedStatement pst = null;
     int count = 100;
+    int pane;
+
+    public void setPane(int pane) {
+        this.pane = pane;
+    }
 
     /**
      * Creates new form NewRequests     * @param new_userID
@@ -77,6 +84,7 @@ public class NewRequests extends javax.swing.JFrame {
     public void setCount(int count) {
         this.count = count;
     }
+
 
 
     public NewRequests() {
@@ -179,10 +187,12 @@ public class NewRequests extends javax.swing.JFrame {
 
     public boolean createButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        int pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to create the request?", "Create Request", JOptionPane.YES_NO_OPTION);
+        pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to create the request?", "Create Request", JOptionPane.YES_NO_OPTION);
         if (pane == 0) {
+
             String sql = "insert into Message (RID, DUsername, TimeStamp, Message) values (?, ?, ?, ?)";
             try {
+                conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
                 pst = conn.prepareStatement(sql);
                 String temp = Integer.toString(count);
                 pst.setString(1, temp);

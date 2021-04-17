@@ -3,6 +3,7 @@ package sample;
 
 import java.awt.Toolkit;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
@@ -15,7 +16,8 @@ public class NewJFrame extends javax.swing.JFrame {
     ResultSet rs = null;
     PreparedStatement pst = null;
     int curRow = 0;
-    private String username;
+    public String username;
+    public String password;
 
     /**
      * Creates new form NewJFrame
@@ -41,6 +43,9 @@ public class NewJFrame extends javax.swing.JFrame {
 
     public void setUsername(String username) {
         this.username = this.txt_username.getText();
+    }
+    public void setPassword(String password){
+        txt_password.setText(password);
     }
 
     /**
@@ -147,7 +152,7 @@ public class NewJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void LoginAsPatientActionPerformed(java.awt.event.ActionEvent evt) {
+    public void LoginAsPatientActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         String sql = "select * from Patient where username=? and password=?";
         try {
@@ -178,7 +183,7 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
 
-    private void LoginAsDoctorActionPerformed(java.awt.event.ActionEvent evt) {
+    public boolean LoginAsDoctorActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         String sql = "select * from Doctor where username=? and password=?";
         try {
@@ -195,6 +200,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Incorrect username or password.  Please try again.");
+                return false;
             }
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -206,6 +212,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        return true;
     }
 
     private void txt_usernameActionPerformed(java.awt.event.ActionEvent evt) {
