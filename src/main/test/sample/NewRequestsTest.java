@@ -11,6 +11,8 @@ import org.junit.Test;
 
 public class NewRequestsTest {
   public NewRequests newRequests = new NewRequests();
+  public PatientView patientView = new PatientView();
+  public NewJFrame newJFrame = new NewJFrame();
 
 
 
@@ -33,7 +35,7 @@ public class NewRequestsTest {
     newRequests.setUserID("will");
 
     newRequests.setFinalString("I need an");
-    newRequests.setCount(126);
+    newRequests.setCount(128);
 
 
     Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
@@ -50,8 +52,26 @@ public class NewRequestsTest {
     newRequests.setUserID("Will");
 
   }
+  @Test
+  public void testMain() throws IOException {
+    newRequests.setUserID("will");
+    newJFrame.setUsername("will");
+    patientView.setUsername("will");
+
+    newRequests.setNew_userID("will");
+
+    String[] args = null;
+    newRequests.main(args);
 
 
+  }
+  @Test
+  public void testNewRequestScreen() {
+    newRequests.setCount(140);
+    newRequests.setUserID("Will");
+
+
+  }
 
 
 

@@ -22,9 +22,39 @@ public class NewRequests extends javax.swing.JFrame {
     ResultSet rs;
     PreparedStatement pst;
     int count = 100;
+    String new_userID1;
+
+
+
+    public void setNew_userID(String new_userID1) {
+        this.new_userID1 = new_userID1;
+    }
 
     public void setFinalString(String finalString) {
         this.finalString = finalString;
+    }
+    public void setMessage(StringBuilder message) {
+        jTextArea1.setText(String.valueOf(message));
+    }
+    public void setRequestNumber(int requestNumber) {
+        this.requestNumber = requestNumber;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public NewRequests() {
+
+
     }
 
     String finalString;
@@ -57,29 +87,7 @@ public class NewRequests extends javax.swing.JFrame {
         jTextArea1.setLineWrap(true);
         jTextArea1.setWrapStyleWord(true);
     }
-    public void setMessage(StringBuilder message) {
-        jTextArea1.setText(String.valueOf(message));
-    }
-    public void setRequestNumber(int requestNumber) {
-        this.requestNumber = requestNumber;
-    }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public NewRequests() {
-
-
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -259,10 +267,13 @@ public class NewRequests extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(NewRequests.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }        //</editor-fold>
         NewJFrame n = new NewJFrame();
+        System.out.println(n.getUsername());
         final PatientView v = new PatientView(n.getUsername());        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             @Override
             public void run() {
+                System.out.println(v.getUsername());
                 new NewRequests(v.getUsername()).setVisible(true);
             }
         });
