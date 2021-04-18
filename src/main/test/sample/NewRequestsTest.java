@@ -11,6 +11,9 @@ import org.junit.Test;
 
 public class NewRequestsTest {
   public NewRequests newRequests = new NewRequests();
+  public PatientView patientView = new PatientView();
+  public NewJFrame newJFrame = new NewJFrame();
+
 
 
   @BeforeEach
@@ -18,18 +21,18 @@ public class NewRequestsTest {
     newRequests.setUserID("will");
     newRequests.setUserType("Doctor");
     newRequests.setCount(101);
-    newRequests.setMessage("I need an appoinment");
-    newRequests.setPane(0);
-
-
-
+    newRequests.setFinalString("I need an appointment");
 
 
   }
   @Test
-  public void validUserTest() throws SQLException {
+  public void validUserRequest() throws SQLException {
+
     newRequests.setUserID("will");
-    newRequests.setMessage("I need an appoinment");
+
+    newRequests.setFinalString("I need an");
+    newRequests.setCount(130);
+
 
     Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
   }
@@ -39,14 +42,18 @@ public class NewRequestsTest {
   }
 
 
-  @Test
-  public void newRequest(){
-    newRequests.setCount(108);
-    newRequests.setUserID("Will");
 
-  }
   @Test
-  void cancelButtonActionPerformed() {
+  public void testMain() throws IOException {
+    newRequests.setUserID("will");
+    newJFrame.setUsername("will");
+    patientView.setUsername("will");
+
+    newRequests.setNew_userID("will");
+
+    String[] args = null;
+    newRequests.main(args);
+
   }
 
 

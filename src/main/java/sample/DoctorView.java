@@ -1,6 +1,7 @@
 /* * To change this license header, choose License Headers in Project Properties. * To change this template file, choose Tools | Templates * and open the template in the editor. */
 package sample;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,6 +20,19 @@ public final class DoctorView extends javax.swing.JFrame {
     DefaultListModel model = new DefaultListModel();
     int index;
     int requestID;
+    String testSqlString;
+
+    public void setTestSqlString(String testSqlString) {
+        this.testSqlString = testSqlString;
+    }
+
+    public DoctorView() {
+
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     /**
      * Creates new form DoctorView     * @param doctor
@@ -208,18 +222,34 @@ public final class DoctorView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void newRequestButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    boolean newRequestButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        viewedRequests.setText("New Requests");
-        requestsList.setVisible(true);
         String element;
         String sql = "select * from Request where Status=?";
         model.removeAllElements();
         element = "RID        Date                                        Patient Username";
         model.addElement(element);
         try {
+            viewedRequests.setText("New Requests");
+            requestsList.setVisible(true);
+        } catch (NullPointerException e) {
+            System.out.println(" ");
+        }
+
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+            /*Created false string for SQL to check what happened if there is nothing new in the database*/
+
+            if(testSqlString == "false"){
+                testSqlString  = "false";
+            }
+            else{
+                testSqlString = "New";
+            }
             pst = conn.prepareStatement(sql);
-            pst.setString(1, "New");
+            pst.setString(1, testSqlString);
             rs = pst.executeQuery();
             if (rs.next()) {
                 //JOptionPane.showMessageDialog(null, "Username and Password is correct");
@@ -229,11 +259,18 @@ public final class DoctorView extends javax.swing.JFrame {
                     element = rs.getString("RID") + "        " + rs.getString("Date") + "           " +
                             rs.getString("PUsername");
                     model.addElement(element);
-                } requestsList.setModel(model);
+                }
+                try {
+                    requestsList.setModel(model);
+                }
+                catch(NullPointerException e) {
+                    System.out.println(" ");
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "No new requests created.");
+                return false;
             }
-        } catch (SQLException | HeadlessException e) {
+        } catch (SQLException | HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             try {
@@ -243,20 +280,36 @@ public final class DoctorView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        return true;
     }
 
-    private void inProgressButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    boolean inProgressButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        viewedRequests.setText("In Progress Requests");
-        requestsList.setVisible(true);
+        try{
+            viewedRequests.setText("In Progress Requests");
+            requestsList.setVisible(true);
+
+        } catch (NullPointerException e) {
+            System.out.println(" ");
+        }
+
         String element;
         String sql = "select distinct Request.RID, Date, PUsername from Request, Message where Request.RID = Message.RID and Request.Status=? and Message.DUsername=?";
         model.removeAllElements();
         element = "RID        Date                                        Patient Username";
         model.addElement(element);
         try {
+            if(testSqlString == "false"){
+                testSqlString  = "false";
+            }
+            else{
+                testSqlString = "In Progress";
+            }
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
             pst = conn.prepareStatement(sql);
-            pst.setString(1, "In Progress");
+            pst.setString(1, testSqlString);
             pst.setString(2, username);
             rs = pst.executeQuery();
             if (rs.next()) {
@@ -267,11 +320,17 @@ public final class DoctorView extends javax.swing.JFrame {
                     element = rs.getString("RID") + "        " + rs.getString("Date") + "           " + rs.getString("PUsername");
                     model.addElement(element);
                 }
-                requestsList.setModel(model);
+                try {
+                    requestsList.setModel(model);
+                }
+                catch(NullPointerException e) {
+                    System.out.println(" ");
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "No requests are in progress");
+                return false;
             }
-        } catch (SQLException | HeadlessException e) {
+        } catch (SQLException | HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             try {
@@ -281,6 +340,7 @@ public final class DoctorView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        return true;
     }
 
     private void openSelectedButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,16 +362,24 @@ public final class DoctorView extends javax.swing.JFrame {
         } else JOptionPane.showMessageDialog(null, "Please select a request");
     }
 
-    private void closeRequestButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    boolean closeRequestButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        viewedRequests.setText("Closed Requests");
-        requestsList.setVisible(true);
+
         String element;
         String sql = "select Distinct Request.RID, Date, PUsername from Request, Message where Request.RID = Message.RID and Request.Status=? and Message.DUsername=?";
         model.removeAllElements();
         element = "RID        Date                                        Patient Username";
         model.addElement(element);
+        try{
+            viewedRequests.setText("Closed Requests");
+            requestsList.setVisible(true);
+
+        } catch (NullPointerException e) {
+            System.out.println(" ");
+        }
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
             pst = conn.prepareStatement(sql);
             pst.setString(1, "Closed");
             pst.setString(2, username);
@@ -324,11 +392,18 @@ public final class DoctorView extends javax.swing.JFrame {
                     element = rs.getString("RID") + "        " + rs.getString("Date") + "           " + rs.getString("PUsername");
                     model.addElement(element);
                 }
-                requestsList.setModel(model);
+                try{
+                    requestsList.setModel(model);
+
+                } catch (NullPointerException e) {
+                    System.out.println(" ");
+                }
+
             } else {
                 JOptionPane.showMessageDialog(null, "No requests have been closed.");
+                return false;
             }
-        } catch (SQLException | HeadlessException e) {
+        } catch (SQLException | HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
             try {
@@ -338,6 +413,7 @@ public final class DoctorView extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, e);
             }
         }
+        return true;
     }
 
     private void requestsListValueChanged(javax.swing.event.ListSelectionEvent evt) {
