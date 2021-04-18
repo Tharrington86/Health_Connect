@@ -1,13 +1,8 @@
 package sample;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 class ProfileTest {
   public Profile profileTest = new Profile();
@@ -38,6 +33,4 @@ class ProfileTest {
     profileTest.logoutActionPerformed(null);
 
   }
-
-
 }
