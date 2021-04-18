@@ -184,14 +184,8 @@ public class NewRequests extends javax.swing.JFrame {
 
     public boolean createButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        /*if(testMessage.isEmpty()){
-            System.out.println("");
-        }
-        else*/
-
         int pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to create the request?", "Create Request", JOptionPane.YES_NO_OPTION);
         if (pane == 0) {
-
             String sql = "insert into Message (RID, DUsername, TimeStamp, Message) values (?, ?, ?, ?)";
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -205,8 +199,6 @@ public class NewRequests extends javax.swing.JFrame {
                 pst.setString(3, timestamp);
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("\n");
-
-
                 if(finalString == "noTest"){
                     stringBuilder.append(jTextArea1.getText());
                     stringBuilder.append("\n Added by ").append("Patient").append(" ").append(userID);
@@ -233,7 +225,6 @@ public class NewRequests extends javax.swing.JFrame {
                     pst.close();
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex);
-
                 }
                 return false;
             }

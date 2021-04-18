@@ -21,6 +21,16 @@ public final class DoctorView extends javax.swing.JFrame {
     int index;
     int requestID;
     String testSqlString;
+    int test;
+    String testRequestID;
+
+    public void setTest(int test) {
+        this.test = test;
+    }
+
+    public void setTestRequestID(String testRequestID) {
+        this.testRequestID = testRequestID;
+    }
 
     public void setTestSqlString(String testSqlString) {
         this.testSqlString = testSqlString;
@@ -343,28 +353,47 @@ public final class DoctorView extends javax.swing.JFrame {
         return true;
     }
 
-    private void openSelectedButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        if (requestsList.getSelectedIndex() != -1) {
-            String temp_requestID = requestsList.getSelectedValue().toString();
-            temp_requestID = temp_requestID.substring(0, 3);
-            requestID = Integer.parseInt(temp_requestID);
-            setRequestID(requestID);
-            try {
+    /**
+     * Modified the code here in If else block to get rid of the error of jlist1 selection for testing
+     * */
+    public boolean openSelectedButtonActionPerformed(ActionEvent evt) {
+        String temp_requestID = null;
+        if(test == 0){
+            if (requestsList.getSelectedIndex() != -1) {
+                temp_requestID = requestsList.getSelectedValue().toString();
+                temp_requestID = temp_requestID.substring(0, 3);
+
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Please select a request");
+            }
+        }
+        else{
+            temp_requestID = testRequestID;
+            if(temp_requestID == ""){
+                JOptionPane.showMessageDialog(null, "Please select a request");
+                return false;
+            }
+        }
+        requestID = Integer.parseInt(temp_requestID);
+        setRequestID(requestID);
+        try {
+            if (test != 1) {
                 rs.close();
                 pst.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, e);
             }
-            RequestConversation r = new RequestConversation(requestID, username, userType);
-            dispose();
-            r.setVisible(true);
-        } else JOptionPane.showMessageDialog(null, "Please select a request");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        RequestConversation r = new RequestConversation(requestID, username, userType);
+        dispose();
+        r.setVisible(true);
+        return true;
     }
 
     boolean closeRequestButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-
         String element;
         String sql = "select Distinct Request.RID, Date, PUsername from Request, Message where Request.RID = Message.RID and Request.Status=? and Message.DUsername=?";
         model.removeAllElements();
@@ -398,7 +427,6 @@ public final class DoctorView extends javax.swing.JFrame {
                 } catch (NullPointerException e) {
                     System.out.println(" ");
                 }
-
             } else {
                 JOptionPane.showMessageDialog(null, "No requests have been closed.");
                 return false;
@@ -424,7 +452,7 @@ public final class DoctorView extends javax.swing.JFrame {
             index = requestsList.getSelectedIndex();
     }
 
-    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {
+    void logoutActionPerformed(java.awt.event.ActionEvent evt) {
         /* Removed the Try/Catch block here that was trying to close the conn.
            It was creating a null pointer exception due to the conn being closed
            by a previous operation
