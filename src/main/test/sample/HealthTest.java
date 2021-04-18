@@ -1,13 +1,13 @@
 package sample;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class HealthTest {
 
-
   @Test
-  void main() {
+  @DisplayName("Health.main")
+  void testMain(){
+    Health.main(new String[]{"arg1", "arg2", "arg3"});
   }
 }
