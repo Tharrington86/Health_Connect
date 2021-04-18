@@ -61,7 +61,7 @@ public class NewRequests extends javax.swing.JFrame {
 
     }
 
-    String finalString;
+    String finalString = "noTest";
 
     /**
      * Creates new form NewRequests     * @param new_userID
@@ -196,7 +196,6 @@ public class NewRequests extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
-
                 pst = conn.prepareStatement(sql);
                 String temp = Integer.toString(count);
                 pst.setString(1, temp);
@@ -206,15 +205,17 @@ public class NewRequests extends javax.swing.JFrame {
                 pst.setString(3, timestamp);
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("\n");
-                try {
-                    stringBuilder.append(jTextArea1.getText());
-                }
-                catch(NullPointerException e) {
-                    System.out.println("NullPointerException thrown!");
-                }
 
-                stringBuilder.append("\n Added by ").append("Patient").append(" ").append(userID);
-                finalString = stringBuilder.toString();
+
+                if(finalString == "noTest"){
+                    stringBuilder.append(jTextArea1.getText());
+                    stringBuilder.append("\n Added by ").append("Patient").append(" ").append(userID);
+
+                    finalString = stringBuilder.toString();
+                }
+                else{
+                    finalString = finalString + "\n Added by Patient " + userID;;
+                }
                 pst.setString(4, finalString);
                 pst.execute();
                 JOptionPane.showMessageDialog(null, "Message created");
