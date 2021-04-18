@@ -1,58 +1,80 @@
 package sample;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
+import java.sql.SQLException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class DoctorViewTest {
-  public DoctorView doctorView = new DoctorView();
+  public DoctorView doctorViewTest = new DoctorView();
 
 
   @Test
   public void testMain() throws IOException {
-    doctorView.setUsername("JohnDoe");
+    doctorViewTest.setUsername("JohnDoe");
     String[] args = null;
-    doctorView.main(args);
+    doctorViewTest.main(args);
   }
 
   @Test
   public void newRequest() throws NullPointerException{
-    doctorView.setUsername("JohnDoe");
-    Assertions.assertTrue(doctorView.newRequestButtonActionPerformed(null));
+    doctorViewTest.setUsername("JohnDoe");
+    Assertions.assertTrue(doctorViewTest.newRequestButtonActionPerformed(null));
 
   }
   @Test
   public void newRequestFalse() throws NullPointerException{
-    doctorView.setTestSqlString("false");
-    Assertions.assertFalse(doctorView.newRequestButtonActionPerformed(null));
+    doctorViewTest.setTestSqlString("false");
+    Assertions.assertFalse(doctorViewTest.newRequestButtonActionPerformed(null));
 
   }
   @Test
   public void inProgressButton() throws NullPointerException{
-    doctorView.setUsername("JohnDoe");
-    Assertions.assertTrue(doctorView.inProgressButtonActionPerformed(null));
+    doctorViewTest.setUsername("JohnDoe");
+    Assertions.assertTrue(doctorViewTest.inProgressButtonActionPerformed(null));
 
   }
   @Test
   public void inProgressButtonFalse() throws NullPointerException{
-    doctorView.setTestSqlString("false");
-    Assertions.assertFalse(doctorView.inProgressButtonActionPerformed(null));
+    doctorViewTest.setTestSqlString("false");
+    Assertions.assertFalse(doctorViewTest.inProgressButtonActionPerformed(null));
 
   }
   @Test
   public void closeButton() throws NullPointerException{
-    doctorView.setUsername("JohnDoe");
-    Assertions.assertTrue(doctorView.closeRequestButtonActionPerformed(null));
+    doctorViewTest.setUsername("JohnDoe");
+    Assertions.assertTrue(doctorViewTest.closeRequestButtonActionPerformed(null));
   }
   @Test
   public void closeButtonFalse() throws NullPointerException{
 
-    Assertions.assertFalse(doctorView.closeRequestButtonActionPerformed(null));
+    Assertions.assertFalse(doctorViewTest.closeRequestButtonActionPerformed(null));
+
+  }
+  @Test
+  public void openRequest() throws SQLException {
+    doctorViewTest.setTest(1);
+    doctorViewTest.setTestRequestID("103");
+    doctorViewTest.setUserType("Doctor");
+    doctorViewTest.setUsername("JohnDoe");
+
+    Assertions.assertTrue(doctorViewTest.openSelectedButtonActionPerformed(null));
+
+  }
+  @Test
+  public void openRequestFalse() throws SQLException, NullPointerException {
+    doctorViewTest.setTest(1);
+    doctorViewTest.setTestRequestID("");
+    doctorViewTest.setUserType("Doctor");
+    doctorViewTest.setUsername("JohnDoe");
+
+    Assertions.assertFalse(doctorViewTest.openSelectedButtonActionPerformed(null));
 
   }
 
-
+  @Test
+  public void logout(){
+    doctorViewTest.logoutActionPerformed(null);
+  }
 
 }
