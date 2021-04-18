@@ -2,6 +2,7 @@
 package sample;
 
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,10 +17,44 @@ public class RequestConversation extends javax.swing.JFrame {
     int requestNumber;
     String userID;
     String userType;
-    Connection conn = null;
-    ResultSet rs = null;
-    PreparedStatement pst = null;
+    Connection conn;
+    ResultSet rs;
+    PreparedStatement pst;
     String element;
+    int testSignal;
+
+    public void setFinalString(String finalString) {
+        this.finalString = finalString;
+    }
+    public void setTestSignal(int testSignal){
+        this.testSignal = testSignal;
+    }
+
+    String finalString = "noTest";
+
+    public RequestConversation() {
+
+    }
+
+    public void setRequestNumber(int requestNumber) {
+        this.requestNumber = requestNumber;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+
+
+
+
+    public void setElement(String element) {
+        this.element = element;
+    }
 
     /**
      * Creates new form RequestConversation     * @param new_requestID     * @param new_userID     * @param new_userType
@@ -198,12 +233,15 @@ public class RequestConversation extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    public boolean addButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         int pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to add your message to the request?", "Add To Request", JOptionPane.YES_NO_OPTION);
         if (pane == 0) {
             String sql = "insert into Message (RID, DUsername, TimeStamp, Message) values (?, ?, ?, ?)";
+
             try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
                 pst = conn.prepareStatement(sql);
                 String temp = Integer.toString(requestNumber);
                 pst.setString(1, temp);
@@ -213,9 +251,14 @@ public class RequestConversation extends javax.swing.JFrame {
                 pst.setString(3, timestamp);
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("\n");
-                stringBuilder.append(addToRequest.getText());
-                stringBuilder.append("\n Added by ").append(userType).append(" ").append(userID);
-                String finalString = stringBuilder.toString();
+                if(finalString == "noTest"){
+                    stringBuilder.append(addToRequest.getText());
+                    stringBuilder.append("\n Added by ").append(userType).append(" ").append(userID);
+                    finalString = stringBuilder.toString();
+                }
+                else{
+                    finalString = finalString + "\n Added by " + userType + " " + userID;;
+                }
                 pst.setString(4, finalString);
                 pst.execute();
                 JOptionPane.showMessageDialog(null, "Message added");
@@ -229,40 +272,51 @@ public class RequestConversation extends javax.swing.JFrame {
                 if ("Doctor".equals(userType)) {
                     sql = "update Request set Status ='In Progress' where RID =?";
                 }
-
                 else {
                     // dont change the status if already "in progress"
                     sql = "update Request set Status = 'New' where RID =? and Status <> 'In Progress'";
                 }
-
                 pst = conn.prepareStatement(sql);
                 temp = Integer.toString(requestNumber);
                 pst.setString(1, temp);
                 pst.execute();
-                currentRequest.append("\n");
-                currentRequest.append(timestamp);
-                currentRequest.append("\n");
-                currentRequest.append(finalString);
-                addToRequest.setText("");
+                try{
+                    currentRequest.append("\n");
+                    currentRequest.append(timestamp);
+                    currentRequest.append("\n");
+                    currentRequest.append(finalString);
+                    addToRequest.setText("");
+
+                } catch(NullPointerException e) {
+                    System.out.println(" ");
+                }
+
+
                 sql = "update Message set DUsername=? where RID =?";
                 pst = conn.prepareStatement(sql);
                 pst.setString(1, userID);
                 pst.setString(2, temp);
                 pst.execute();
-            } catch (SQLException | HeadlessException e) {
+
+            } catch (SQLException | HeadlessException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(null, e);
+                return false;
             } finally {
                 try {
-                    rs.close();
+                    if (testSignal != 0) {
+                        rs.close();
+                    }
                     pst.close();
+
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(null, e);
                 }
             }
         }
+        return true;
     }
 
-    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    public void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         int pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to close the request?", "Close Request", JOptionPane.YES_NO_OPTION);
         if (pane == 0) {
@@ -298,7 +352,7 @@ public class RequestConversation extends javax.swing.JFrame {
     }
 
 
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    public void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         try {
             rs.close();

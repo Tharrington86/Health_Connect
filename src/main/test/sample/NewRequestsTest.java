@@ -30,8 +30,8 @@ public class NewRequestsTest {
 
     newRequests.setUserID("will");
 
-    newRequests.setFinalString("I need an");
-    newRequests.setCount(130);
+    newRequests.setFinalString("I need more medication");
+    newRequests.setCount(135);
 
 
     Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
