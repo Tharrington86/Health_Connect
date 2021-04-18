@@ -30,14 +30,15 @@ public class NewRequestsTest {
 
     newRequests.setUserID("will");
 
-    newRequests.setFinalString("I need more medication");
-    newRequests.setCount(135);
+    newRequests.setFinalString("I need more supplies");
+    newRequests.setCount(153);
 
 
     Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
   }
   @Test
   public void cancelTest(){
+    newRequests.setUserID("will");
     Assertions.assertTrue(newRequests.cancelButtonActionPerformed(null));
   }
 
