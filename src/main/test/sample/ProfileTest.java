@@ -12,8 +12,6 @@ class ProfileTest {
     profileTest.setUsername("will");
     String[] args = null;
     profileTest.main(args);
-
-
   }
   @Test
   public void makeRequest(){
