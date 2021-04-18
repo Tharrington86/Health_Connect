@@ -47,15 +47,14 @@ public class RequestConversation extends javax.swing.JFrame {
     public void setUserType(String userType) {
         this.userType = userType;
     }
-
-
-
-
-
     public void setElement(String element) {
         this.element = element;
     }
-
+    public Connection connection() throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+        return conn;
+    }
     /**
      * Creates new form RequestConversation     * @param new_requestID     * @param new_userID     * @param new_userType
      */
@@ -65,8 +64,7 @@ public class RequestConversation extends javax.swing.JFrame {
         userID = new_userID;
         userType = new_userType;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+            conn = connection();
             //JOptionPane.showMessageDialog (null, "Connected");
             Statement statement = conn.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
@@ -140,6 +138,7 @@ public class RequestConversation extends javax.swing.JFrame {
             }
         }
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -240,8 +239,7 @@ public class RequestConversation extends javax.swing.JFrame {
             String sql = "insert into Message (RID, DUsername, TimeStamp, Message) values (?, ?, ?, ?)";
 
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+                conn = connection();
                 pst = conn.prepareStatement(sql);
                 String temp = Integer.toString(requestNumber);
                 pst.setString(1, temp);
@@ -316,22 +314,25 @@ public class RequestConversation extends javax.swing.JFrame {
         return true;
     }
 
-    public void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    public boolean closeButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         int pane = JOptionPane.showConfirmDialog(null, "Are you sure you want to close the request?", "Close Request", JOptionPane.YES_NO_OPTION);
         if (pane == 0) {
             String sql = "update Request set Status='Closed' where RID =?";
             try {
+                conn = connection();
                 pst = conn.prepareStatement(sql);
                 String temp = Integer.toString(requestNumber);
                 pst.setString(1, temp);
                 pst.execute();
                 JOptionPane.showMessageDialog(null, "Request has been closed.");
-            } catch (SQLException | HeadlessException e) {
+            } catch (SQLException | HeadlessException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(null, e);
             } finally {
                 try {
-                    rs.close();
+                    if (testSignal != 0) {
+                        rs.close();
+                    }
                     pst.close();
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(null, e);
@@ -349,17 +350,23 @@ public class RequestConversation extends javax.swing.JFrame {
                 dispose();
             }
         }
+
+        return true;
     }
 
 
-    public void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    public boolean backButtonActionPerformed(ActionEvent evt) throws NullPointerException {
         // TODO add your handling code here:
-        try {
-            rs.close();
-            pst.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+        //Added a if else block to close the rs and pst for testing
+        if(testSignal != 0){
+            try {
+                rs.close();
+                pst.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
         }
+
         if ("Doctor".equals(userType)) {
             NewJFrame n = new NewJFrame();
             DoctorView d = new DoctorView(userID);
@@ -371,6 +378,7 @@ public class RequestConversation extends javax.swing.JFrame {
             p.setVisible(true);
             dispose();
         }
+        return true;
     }
 
     /**
