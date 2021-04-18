@@ -3,6 +3,7 @@ package sample;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,6 @@ class PatientViewTest {
     Assertions.assertTrue(patientViewTest.InProgressButtonActionPerformed(null));
 
   }
-
 
 
 
@@ -49,6 +49,32 @@ class PatientViewTest {
     patientViewTest.setUsername("Will");
     Assertions.assertTrue(patientViewTest.closedButtonActionPerformed(null));
   }
+  @Test
+  public void backActionPerformed() throws NullPointerException{
+    patientViewTest.setUsername("Will");
+    Assertions.assertTrue(patientViewTest.backButtonActionPerformed(null));
+  }
+  @Test
+  public void openRequest() throws SQLException {
+    patientViewTest.setTest(1);
+    patientViewTest.setTestRequestID("103");
+    patientViewTest.setUserType("Patient");
+    patientViewTest.setUsername("will");
+
+    Assertions.assertTrue(patientViewTest.openRequestActionPerformed(null));
+
+  }
+  @Test
+  public void openRequestFalse() throws SQLException, NullPointerException {
+    patientViewTest.setTest(1);
+    patientViewTest.setTestRequestID("");
+    patientViewTest.setUserType("Patient");
+    patientViewTest.setUsername("will");
+
+    Assertions.assertFalse(patientViewTest.openRequestActionPerformed(null));
+
+  }
+
 
   @Test
   public void testMain() throws IOException {

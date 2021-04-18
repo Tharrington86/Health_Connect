@@ -26,14 +26,30 @@ public final class PatientView extends javax.swing.JFrame {
     int index;
     int requestID;
 
+    public void setTest(int test) {
+        this.test = test;
+    }
+
+    int test = 0;//created for testing
+    String testRequestID;
+
+    public void setTestRequestID(String testRequestID) {
+        this.testRequestID = testRequestID;
+    }
+
+    public Connection connection() throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+        return conn;
+    }
+
     /**
      * Creates new form PatientView     * @param patient
      */
     public PatientView(String patient) {
         initComponents();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+            conn = connection();
             //JOptionPane.showMessageDialog (null, "Connected");
             Statement statement = conn.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
@@ -45,41 +61,27 @@ public final class PatientView extends javax.swing.JFrame {
         setUserType(userType);
         jList1.setVisible(false);
     }
-
     public PatientView() {
-
     }
-
 
     public String getUsername() {
         return this.username;
     }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
     public int getRequestID() {
         return this.requestID;
     }
-
-    public void setjList1(JList jList1) {
-        this.jList1 = jList1;
-    }
-
     public void setRequestID(int requestID) {
         this.requestID = requestID;
     }
-
     public String getUserType() {
         return this.userType;
     }
-
     public void setUserType(String userType) {
         this.userType = userType;
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.     * WARNING: Do NOT modify this code. The content of this method is always
@@ -219,8 +221,7 @@ public final class PatientView extends javax.swing.JFrame {
 
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+            conn = connection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, "In Progress");
             pst.setString(2, username);
@@ -274,9 +275,7 @@ public final class PatientView extends javax.swing.JFrame {
 
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
-
+            conn = connection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, "New");
             pst.setString(2, username);
@@ -328,9 +327,7 @@ public final class PatientView extends javax.swing.JFrame {
         }
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
-
+            conn = connection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, "Closed");
             pst.setString(2, username);
@@ -366,31 +363,42 @@ public final class PatientView extends javax.swing.JFrame {
         return true;
     }
 
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    boolean backButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         dispose();
         Profile p = new Profile(username);
         p.setVisible(true);
+        return true;
     }
-
+    /**
+    * Modified the code here in If else block to get rid of the error of jlist1 selection for testing
+    * */
     public boolean openRequestActionPerformed(ActionEvent evt) {
-        // TODO add your handling code here:
+        String temp_requestID = null;
+        if(test == 0){
+            if (jList1.getSelectedIndex() != -1) {
+                temp_requestID = jList1.getSelectedValue().toString();
+                temp_requestID = temp_requestID.substring(0, 3);
 
-        if (jList1.getSelectedIndex() != -1) {
-            String temp_requestID = jList1.getSelectedValue().toString();
-            temp_requestID = temp_requestID.substring(0, 3);
-            requestID = Integer.parseInt(temp_requestID);
-            setRequestID(requestID);
-            RequestConversation r = new RequestConversation(requestID, username, userType);
-            dispose();
-            r.setVisible(true);
-            return true;
-
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Please select a request");
+            }
         }
-        else JOptionPane.showMessageDialog(null, "Please select a request");
-        return false;
+        else{
+            temp_requestID = testRequestID;
+            if(temp_requestID == ""){
+                JOptionPane.showMessageDialog(null, "Please select a request");
+                return false;
+            }
+        }
+        requestID = Integer.parseInt(temp_requestID);
+        setRequestID(requestID);
+        RequestConversation r = new RequestConversation(requestID, username, userType);
+        dispose();
+        r.setVisible(true);
+        return true;
     }
-
 
     /**
      * @param args the command line arguments
