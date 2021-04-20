@@ -1,0 +1,31 @@
+Create database if not exists healthconnect;
+
+create table if not exists Request
+(
+    RID       int PRIMARY KEY,
+    PUsername varchar(255),
+    Date      DATE,
+    Status    VARCHAR(255)
+);
+
+create table if not exists Message
+(
+    RID       int,
+    DUsername varchar(255),
+    Timestamp TIMESTAMP,
+    Message   varchar(255)
+);
+
+create table if not exists Patient
+(
+    PAT_ID INTEGER PRIMARY KEY,
+    Username VARCHAR(255) UNIQUE NOT NULL,
+    Password VARCHAR(255) UNIQUE NOT NULL
+);
+
+create table if not exists Doctor
+(
+    DOC_ID INTEGER PRIMARY KEY,
+    Username VARCHAR(255) UNIQUE NOT NULL,
+    Password VARCHAR(255) UNIQUE NOT NULL
+);
