@@ -217,9 +217,6 @@ public final class PatientView extends javax.swing.JFrame {
         catch(NullPointerException e) {
             System.out.println(" ");
         }
-
-
-
         try {
             conn = connection();
             pst = conn.prepareStatement(sql);
@@ -327,6 +324,7 @@ public final class PatientView extends javax.swing.JFrame {
         }
 
         try {
+            System.out.println(username);
             conn = connection();
             pst = conn.prepareStatement(sql);
             pst.setString(1, "Closed");

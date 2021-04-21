@@ -22,20 +22,24 @@ public class NewRequestsTest {
     newRequests.setUserType("Doctor");
     newRequests.setCount(101);
     newRequests.setFinalString("I need an appointment");
-
-
   }
+
+
+  /**
+   *Valid New Request
+   * */
   @Test
   public void validUserRequest() throws SQLException {
-
     newRequests.setUserID("will");
-
     newRequests.setFinalString("I need more supplies");
-    newRequests.setCount(153);
-
-
+    newRequests.setCount(159);
     Assertions.assertTrue(newRequests.createButtonActionPerformed(null));
   }
+
+
+  /**
+   *Cancel Button Test
+   * */
   @Test
   public void cancelTest(){
     newRequests.setUserID("will");
@@ -43,18 +47,17 @@ public class NewRequestsTest {
   }
 
 
-
+  /**
+   *Test Main
+   * */
   @Test
   public void testMain() throws IOException {
     newRequests.setUserID("will");
     newJFrame.setUsername("will");
     patientView.setUsername("will");
-
     newRequests.setNew_userID("will");
-
     String[] args = null;
     newRequests.main(args);
-
   }
 
 

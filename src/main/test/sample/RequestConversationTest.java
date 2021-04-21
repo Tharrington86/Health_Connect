@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 
 class RequestConversationTest {
   public RequestConversation requestConversation = new RequestConversation();
-
+  /**
+   *Valid add request button for Doctor
+   * */
   @Test
   void addButtonDoctor() throws SQLException {
     requestConversation.setRequestNumber(103);
@@ -20,19 +22,23 @@ class RequestConversationTest {
     Assertions.assertTrue(requestConversation.addButtonActionPerformed(null));
 
   }
+  /**
+   *Valid add request button by patient
+   * */
   @Test
   void addButtonPatient() throws SQLException {
-    requestConversation.setRequestNumber(103);
+    requestConversation.setRequestNumber(105);
     requestConversation.setUserID("will");
     requestConversation.setUserType("Patient");
     requestConversation.setFinalString("I need to follow up soon");
     requestConversation.setTestSignal(0);
     Assertions.assertTrue(requestConversation.addButtonActionPerformed(null));
-
   }
 
 
-
+  /**
+   *Valid Close request Viewer by Doctor
+   * */
   @Test
   void closeButtonActionPerformedDoctor() {
     requestConversation.setUserID("JohnDoe");
@@ -40,9 +46,11 @@ class RequestConversationTest {
     requestConversation.setRequestNumber(103);
     requestConversation.setTestSignal(0);
     Assertions.assertTrue(requestConversation.closeButtonActionPerformed(null));
-
-
   }
+
+  /**
+   *Valid close request viewer by Patient
+   * */
   @Test
   void closeButtonActionPerformedPatient() {
     requestConversation.setUserID("will");
@@ -50,10 +58,11 @@ class RequestConversationTest {
     requestConversation.setRequestNumber(103);
     requestConversation.setTestSignal(0);
     Assertions.assertTrue(requestConversation.closeButtonActionPerformed(null));
-
-
   }
 
+  /**
+   *Valid back button test by Doctor
+   * */
   @Test
   void backButtonActionDoctor() {
     requestConversation.setTestSignal(0);
@@ -61,6 +70,10 @@ class RequestConversationTest {
     requestConversation.setUserID("JohnDoe");
     Assertions.assertTrue(requestConversation.backButtonActionPerformed(null));
   }
+
+  /**
+   *Valid back button test by patient
+   * */
   @Test
   void backButtonActionPatient() {
     requestConversation.setTestSignal(0);
