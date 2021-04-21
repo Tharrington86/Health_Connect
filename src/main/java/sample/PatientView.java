@@ -39,7 +39,9 @@ public final class PatientView extends javax.swing.JFrame {
 
     public Connection connection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
+
+        //Connect to the database
+        conn = Database.getConnection();
         return conn;
     }
 
