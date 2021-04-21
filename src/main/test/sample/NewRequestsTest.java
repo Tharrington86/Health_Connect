@@ -1,13 +1,10 @@
 package sample;
-import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NewRequestsTest {
   public NewRequests newRequests = new NewRequests();

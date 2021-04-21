@@ -252,10 +252,9 @@ public final class DoctorView extends javax.swing.JFrame {
             conn = DriverManager.getConnection("jdbc:mysql://104-128-64-141.cloud-xip.io:3306/healthconnect?serverTimezone=UTC", "root", "Healthconnect1");
             /*Created false string for SQL to check what happened if there is nothing new in the database*/
 
-            if(testSqlString == "false"){
-                testSqlString  = "false";
-            }
-            else{
+            if (testSqlString == "false") {
+                testSqlString = "false";
+            } else {
                 testSqlString = "New";
             }
             pst = conn.prepareStatement(sql);
@@ -272,8 +271,7 @@ public final class DoctorView extends javax.swing.JFrame {
                 }
                 try {
                     requestsList.setModel(model);
-                }
-                catch(NullPointerException e) {
+                } catch (NullPointerException e) {
                     System.out.println(" ");
                 }
             } else {
@@ -295,7 +293,7 @@ public final class DoctorView extends javax.swing.JFrame {
 
     boolean inProgressButtonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        try{
+        try {
             viewedRequests.setText("In Progress Requests");
             requestsList.setVisible(true);
 
@@ -309,10 +307,9 @@ public final class DoctorView extends javax.swing.JFrame {
         element = "RID        Date                                        Patient Username";
         model.addElement(element);
         try {
-            if(testSqlString == "false"){
-                testSqlString  = "false";
-            }
-            else{
+            if (testSqlString == "false") {
+                testSqlString = "false";
+            } else {
                 testSqlString = "In Progress";
             }
 
@@ -332,8 +329,7 @@ public final class DoctorView extends javax.swing.JFrame {
                 }
                 try {
                     requestsList.setModel(model);
-                }
-                catch(NullPointerException e) {
+                } catch (NullPointerException e) {
                     System.out.println(" ");
                 }
             } else {
@@ -355,22 +351,20 @@ public final class DoctorView extends javax.swing.JFrame {
 
     /**
      * Modified the code here in If else block to get rid of the error of jlist1 selection for testing
-     * */
+     */
     public boolean openSelectedButtonActionPerformed(ActionEvent evt) {
         String temp_requestID = null;
-        if(test == 0){
+        if (test == 0) {
             if (requestsList.getSelectedIndex() != -1) {
                 temp_requestID = requestsList.getSelectedValue().toString();
                 temp_requestID = temp_requestID.substring(0, 3);
 
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Please select a request");
             }
-        }
-        else{
+        } else {
             temp_requestID = testRequestID;
-            if(temp_requestID == ""){
+            if (temp_requestID == "") {
                 JOptionPane.showMessageDialog(null, "Please select a request");
                 return false;
             }
@@ -399,7 +393,7 @@ public final class DoctorView extends javax.swing.JFrame {
         model.removeAllElements();
         element = "RID        Date                                        Patient Username";
         model.addElement(element);
-        try{
+        try {
             viewedRequests.setText("Closed Requests");
             requestsList.setVisible(true);
 
@@ -421,7 +415,7 @@ public final class DoctorView extends javax.swing.JFrame {
                     element = rs.getString("RID") + "        " + rs.getString("Date") + "           " + rs.getString("PUsername");
                     model.addElement(element);
                 }
-                try{
+                try {
                     requestsList.setModel(model);
 
                 } catch (NullPointerException e) {

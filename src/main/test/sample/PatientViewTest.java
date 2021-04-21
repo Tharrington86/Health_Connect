@@ -46,12 +46,12 @@ class PatientViewTest {
   }
   @Test
   public void closedActionPerformed() throws NullPointerException{
-    patientViewTest.setUsername("Will");
-    Assertions.assertTrue(patientViewTest.closedButtonActionPerformed(null));
+    patientViewTest.setUsername("will");
+    Assertions.assertFalse(patientViewTest.closedButtonActionPerformed(null));
   }
   @Test
   public void backActionPerformed() throws NullPointerException{
-    patientViewTest.setUsername("Will");
+    patientViewTest.setUsername("will");
     Assertions.assertTrue(patientViewTest.backButtonActionPerformed(null));
   }
   @Test
